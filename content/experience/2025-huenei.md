@@ -3,7 +3,7 @@ type: experience
 title: AI & Systems Engineer (R&D)
 company: Huenei IT Services
 location: Argentina
-start: "2025-01"
+start: "2025-09"
 end: present
 tech: [Python, LLMs, MCP, RAG, Reranking, Prompt Engineering, Cloud AI, FastAPI, Docker]
 ---

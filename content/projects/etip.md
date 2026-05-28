@@ -2,7 +2,7 @@
 type: project
 name: ETIP — Enterprise Talent Intelligence Platform
 status: production
-year: 2025
+year: 2026
 tech: [Python, FastAPI, Next.js, TypeScript, PostgreSQL, Qdrant, Redis, Celery, LiteLLM, fastembed, flashrank]
 github: github.com/lzvxck/etip
 ---

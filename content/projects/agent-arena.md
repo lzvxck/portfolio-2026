@@ -2,7 +2,7 @@
 type: project
 name: Agent Arena
 status: production
-year: 2025
+year: 2026
 tech: [Python, LangGraph, Benchmarking, Autonomous Agents]
 github: github.com/lzvxck/agent-arena
 ---

@@ -2,7 +2,7 @@
 type: project
 name: Chainforge
 status: production
-year: 2025
+year: 2026
 tech: [Go, LLM, MCP, Qdrant, PostgreSQL, Redis, SQLite, OpenTelemetry, Prometheus]
 github: github.com/lzvxck/chainforge
 ---

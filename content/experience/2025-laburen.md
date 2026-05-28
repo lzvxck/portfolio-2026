@@ -3,8 +3,8 @@ type: experience
 title: AI Engineer
 company: Laburen
 location: Argentina (Remote)
-start: "2025-01"
-end: "2025-03"
+start: "2025-07"
+end: "2025-09"
 tech: [Python, MCP, Cloudflare Workers, RAG, Prompt Engineering, LLM Agents, Context Management]
 ---
 

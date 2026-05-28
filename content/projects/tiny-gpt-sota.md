@@ -2,7 +2,7 @@
 type: project
 name: Tiny GPT SOTA
 status: archived
-year: 2024
+year: 2026
 tech: [Python, PyTorch, Hugging Face, CUDA]
 github: github.com/lzvxck/tiny-gpt-sota
 ---
