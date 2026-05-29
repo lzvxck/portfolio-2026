@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
     "/api/chat": ["./data/**"],
   },
   outputFileTracingExcludes: {
-    // onnxruntime-node ships binaries for win32 + darwin + linux.
+    // onnxruntime-node ships binaries for win32 + darwin + linux (napi-v6).
     // Vercel runs Linux only — strip the other two to stay under the 250 MB limit.
     "/api/chat": [
-      "./node_modules/onnxruntime-node/bin/napi-v3/win32/**",
-      "./node_modules/onnxruntime-node/bin/napi-v3/darwin/**",
+      "./node_modules/onnxruntime-node/bin/napi-v6/win32/**",
+      "./node_modules/onnxruntime-node/bin/napi-v6/darwin/**",
     ],
   },
 };

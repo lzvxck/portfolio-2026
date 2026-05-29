@@ -90,13 +90,19 @@ export async function POST(req: Request) {
 
   // ── 6. Grounded generation — manual ReadableStream for real-time flushing ──
   const system = buildSystemPrompt(chunks);
-  const { textStream } = streamText({
-    model: groq("llama-3.1-8b-instant"),
-    system,
-    messages: body.messages,
-    temperature: 0.2,
-    maxOutputTokens: 512,
-  });
+  let textStream: AsyncIterable<string>;
+  try {
+    ({ textStream } = streamText({
+      model: groq("llama-3.1-8b-instant"),
+      system,
+      messages: body.messages,
+      temperature: 0.2,
+      maxOutputTokens: 512,
+    }));
+  } catch (err) {
+    console.error("[chat] streamText init error:", err);
+    return json({ error: "Service temporarily unavailable" }, 503);
+  }
 
   return new Response(
     new ReadableStream({
@@ -106,6 +112,8 @@ export async function POST(req: Request) {
           for await (const chunk of textStream) {
             controller.enqueue(encoder.encode(chunk));
           }
+        } catch (err) {
+          console.error("[chat] stream error:", err);
         } finally {
           controller.close();
         }
