@@ -1,37 +1,50 @@
 "use client";
 
-import { useState, useRef, type KeyboardEvent } from "react";
+import { useRef, useEffect, type ChangeEvent, type FormEvent, type KeyboardEvent } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+const MAX_CHARS = 4000;
+const WARN_AT = 0.8; // show counter at 80%
+
 export default function Composer({
+  value,
+  onChange,
   onSubmit,
   isLoading,
+  textareaRef: externalRef,
 }: {
-  onSubmit: (value: string) => void;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onSubmit: (e?: FormEvent) => void;
   isLoading: boolean;
+  textareaRef?: React.RefObject<HTMLTextAreaElement | null>;
 }) {
-  const [value, setValue] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const internalRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = externalRef ?? internalRef;
+
+  // Refocus after loading finishes
+  useEffect(() => {
+    if (!isLoading) textareaRef.current?.focus();
+  }, [isLoading]);
+
+  // Reset height when value is cleared
+  useEffect(() => {
+    if (value === "" && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+  }, [value]);
 
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      submit();
+      onSubmit();
     }
   }
 
-  function submit() {
-    if (!value.trim() || isLoading) return;
-    onSubmit(value);
-    setValue("");
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-    }
-  }
-
-  function handleInput() {
+  function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    onChange(e);
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
@@ -39,35 +52,53 @@ export default function Composer({
   }
 
   const canSend = value.trim().length > 0 && !isLoading;
+  const charCount = value.length;
+  const showCounter = charCount > MAX_CHARS * WARN_AT;
+  const nearLimit = charCount > MAX_CHARS * 0.95;
 
   return (
-    <div className="flex items-end gap-2 rounded-2xl border border-border bg-card px-4 py-3 transition-colors focus-within:border-border/60">
-      <textarea
-        ref={textareaRef}
-        rows={1}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onInput={handleInput}
-        placeholder="Ask about experience, projects, skills…"
-        disabled={isLoading}
-        className="flex-1 resize-none bg-transparent text-sm placeholder:text-muted-foreground outline-none leading-6 min-h-[24px] max-h-[180px] disabled:opacity-50"
-      />
-      <Button
-        size="icon"
-        variant="ghost"
-        onClick={submit}
-        disabled={!canSend}
-        aria-label="Send"
-        className={cn(
-          "shrink-0 size-8 rounded-full transition-colors",
-          canSend
-            ? "bg-primary text-primary-foreground hover:bg-primary/90"
-            : "text-muted-foreground"
-        )}
-      >
-        <ArrowUp className="size-4" />
-      </Button>
+    <div
+      className={cn(
+        "flex flex-col rounded-2xl border bg-card transition-colors duration-150",
+        "border-border focus-within:border-white/20"
+      )}
+    >
+      <div className="flex items-center gap-3 px-4 py-3.5">
+        <textarea
+          ref={textareaRef}
+          rows={1}
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask about experience, projects, skills…"
+          disabled={isLoading}
+          maxLength={MAX_CHARS}
+          className="flex-1 resize-none bg-transparent text-sm placeholder:text-muted-foreground/60 outline-none leading-6 min-h-[24px] max-h-[180px] py-0 disabled:opacity-40"
+        />
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => onSubmit()}
+          disabled={!canSend}
+          aria-label="Send"
+          className={cn(
+            "shrink-0 size-7 rounded-full transition-all duration-150",
+            canSend
+              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+              : "text-muted-foreground/40"
+          )}
+        >
+          <ArrowUp className="size-3.5" />
+        </Button>
+      </div>
+
+      {showCounter && (
+        <div className="px-4 pb-2 flex justify-end">
+          <span className={cn("font-mono text-[10px]", nearLimit ? "text-destructive" : "text-muted-foreground/50")}>
+            {charCount}/{MAX_CHARS}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 {
   "model": "Xenova/bge-small-en-v1.5",
   "dimensions": 384,
-  "created": "2026-05-28T21:49:39.360Z",
+  "created": "2026-05-28T21:59:57.030Z",
   "chunks": [
     {
       "id": "certifications/aws-cloud-quest",
@@ -12,7 +12,7 @@
         "issuer": "Amazon Web Services (AWS)",
         "year": 2025,
         "issued": "2025-05",
-        "source": "certifications\\aws-cloud-quest.md"
+        "source": "certifications/aws-cloud-quest.md"
       },
       "vector": [
         -0.07464106380939484,
@@ -410,7 +410,7 @@
         "issuer": "Amazon Web Services (AWS)",
         "year": 2025,
         "issued": "2025-06",
-        "source": "certifications\\aws-ml-foundations.md"
+        "source": "certifications/aws-ml-foundations.md"
       },
       "vector": [
         -0.03283512219786644,
@@ -808,7 +808,7 @@
         "issuer": "Centro de e-Learning UTN FRBA",
         "year": 2020,
         "issued": "2020-08",
-        "source": "certifications\\citp-utn.md"
+        "source": "certifications/citp-utn.md"
       },
       "vector": [
         -0.023766253143548965,
@@ -1207,7 +1207,7 @@
         "year": 2022,
         "issued": "2022-12",
         "credential": "mefhH1",
-        "source": "certifications\\efset-english.md"
+        "source": "certifications/efset-english.md"
       },
       "vector": [
         0.01794498786330223,
@@ -1605,7 +1605,7 @@
         "issuer": "Udemy",
         "year": 2024,
         "issued": "2024-11",
-        "source": "certifications\\golang-udemy.md"
+        "source": "certifications/golang-udemy.md"
       },
       "vector": [
         -0.029307641088962555,
@@ -2004,7 +2004,7 @@
         "year": 2025,
         "issued": "2025-05",
         "credential": "URL-WNQKFPCPK1G",
-        "source": "certifications\\ibm-ai-ml.md"
+        "source": "certifications/ibm-ai-ml.md"
       },
       "vector": [
         -0.03644833341240883,
@@ -2402,7 +2402,7 @@
         "issuer": "Noble Work Foundation",
         "year": 2022,
         "issued": "2022-04",
-        "source": "certifications\\solidity-noble.md"
+        "source": "certifications/solidity-noble.md"
       },
       "vector": [
         -0.03147898241877556,
@@ -2801,7 +2801,7 @@
         "location": "Buenos Aires, Argentina",
         "start": "2020",
         "end": "2023",
-        "source": "education\\computer-engineering-unlam.md"
+        "source": "education/computer-engineering-unlam.md"
       },
       "vector": [
         0.02129480242729187,
@@ -3209,7 +3209,7 @@
           "PostgreSQL",
           "Docker"
         ],
-        "source": "experience\\2022-freelance.md"
+        "source": "experience/2022-freelance.md"
       },
       "vector": [
         -0.015696221962571144,
@@ -3619,7 +3619,7 @@
           "FastAPI",
           "Docker"
         ],
-        "source": "experience\\2025-huenei.md"
+        "source": "experience/2025-huenei.md"
       },
       "vector": [
         -0.01937990076839924,
@@ -4027,7 +4027,7 @@
           "LLM Agents",
           "Context Management"
         ],
-        "source": "experience\\2025-laburen.md"
+        "source": "experience/2025-laburen.md"
       },
       "vector": [
         -0.021687738597393036,
@@ -4831,7 +4831,7 @@
           "Autonomous Agents"
         ],
         "github": "github.com/lzvxck/agent-arena",
-        "source": "projects\\agent-arena.md"
+        "source": "projects/agent-arena.md"
       },
       "vector": [
         -0.07964913547039032,
@@ -5240,7 +5240,7 @@
           "Prometheus"
         ],
         "github": "github.com/lzvxck/chainforge",
-        "source": "projects\\chainforge.md"
+        "source": "projects/chainforge.md"
       },
       "vector": [
         -0.034842606633901596,
@@ -5651,7 +5651,7 @@
           "flashrank"
         ],
         "github": "github.com/lzvxck/etip",
-        "source": "projects\\etip.md"
+        "source": "projects/etip.md"
       },
       "vector": [
         -0.05842491239309311,
@@ -6056,7 +6056,7 @@
           "Multi-tenancy"
         ],
         "github": "github.com/lzvxck/prompt-shield",
-        "source": "projects\\prompt-shield.md"
+        "source": "projects/prompt-shield.md"
       },
       "vector": [
         -0.08331882953643799,
@@ -6460,7 +6460,7 @@
           "REST API"
         ],
         "github": "github.com/lzvxck/prompt-version-hub",
-        "source": "projects\\prompt-version-hub.md"
+        "source": "projects/prompt-version-hub.md"
       },
       "vector": [
         -0.06521807610988617,
@@ -6870,7 +6870,7 @@
         ],
         "github": "github.com/lzvxck/portfolio-2026",
         "url": "",
-        "source": "projects\\rag-portfolio.md"
+        "source": "projects/rag-portfolio.md"
       },
       "vector": [
         -0.047419603914022446,
@@ -7274,7 +7274,7 @@
           "CUDA"
         ],
         "github": "github.com/lzvxck/tiny-gpt-sota",
-        "source": "projects\\tiny-gpt-sota.md"
+        "source": "projects/tiny-gpt-sota.md"
       },
       "vector": [
         0.012545758858323097,
@@ -7669,7 +7669,7 @@
       "metadata": {
         "type": "skills",
         "category": "AI & Machine Learning",
-        "source": "skills\\ai-ml.md"
+        "source": "skills/ai-ml.md"
       },
       "vector": [
         -0.015441641211509705,
@@ -8064,7 +8064,7 @@
       "metadata": {
         "type": "skills",
         "category": "Infrastructure & Systems",
-        "source": "skills\\infrastructure.md"
+        "source": "skills/infrastructure.md"
       },
       "vector": [
         -0.039170362055301666,
@@ -8459,7 +8459,7 @@
       "metadata": {
         "type": "skills",
         "category": "Languages & Frameworks",
-        "source": "skills\\languages-frameworks.md"
+        "source": "skills/languages-frameworks.md"
       },
       "vector": [
         -0.09988037496805191,

@@ -106,7 +106,7 @@ async function main() {
     chunks.push({
       id,
       text,
-      metadata: { ...data, source: relative(CONTENT_DIR, file) },
+      metadata: { ...data, source: relative(CONTENT_DIR, file).replace(/\\/g, "/") },
       vector,
     });
   }
