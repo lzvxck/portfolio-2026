@@ -2,12 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
-    // embeddings.json is not a JS import so Next.js won't trace it automatically
-    "/api/chat": ["./data/**"],
+    // data/embeddings.json and the Linux onnxruntime native binary are not
+    // JS imports so Next.js static tracing won't pick them up automatically.
+    // onnxruntime-node resolves its binary via process.platform at runtime
+    // (dynamic require) — nft can't see it statically.
+    "/api/chat": [
+      "./data/**",
+      "./node_modules/onnxruntime-node/bin/napi-v6/linux/**",
+    ],
   },
   outputFileTracingExcludes: {
-    // onnxruntime-node ships binaries for win32 + darwin + linux (napi-v6).
-    // Vercel runs Linux only — strip the other two to stay under the 250 MB limit.
+    // Strip win32 and darwin binaries — Vercel runs Linux only.
     "/api/chat": [
       "./node_modules/onnxruntime-node/bin/napi-v6/win32/**",
       "./node_modules/onnxruntime-node/bin/napi-v6/darwin/**",
