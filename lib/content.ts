@@ -14,7 +14,7 @@ function ls(dir: string) {
     .map((f) => join(CONTENT, dir, f));
 }
 
-function formatYM(s: string): string {
+export function formatYM(s: string): string {
   if (s === "present") return "Present";
   const [y, m] = s.split("-");
   if (!m) return y;

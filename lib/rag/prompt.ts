@@ -1,11 +1,19 @@
 import type { ScoredChunk } from "./retrieve";
+import { formatYM } from "../content";
 
 export const REFUSAL =
   "I can only answer questions about Lionel Arce's professional background — experience, projects, skills, education, and certifications. Could you ask me something about that?";
 
 export function buildSystemPrompt(chunks: ScoredChunk[]): string {
   const context = chunks
-    .map((c) => `[${String(c.metadata.type).toUpperCase()}]\n${c.text}`)
+    .map((c) => {
+      const start = c.metadata.start as string | undefined;
+      const header = `[${String(c.metadata.type).toUpperCase()}]`;
+      const dateRange = start
+        ? ` (${formatYM(start)} – ${formatYM((c.metadata.end as string | undefined) ?? "present")})`
+        : "";
+      return `${header}${dateRange}\n${c.text}`;
+    })
     .join("\n\n---\n\n");
 
   return `You are the portfolio assistant for Lionel Arce — an AI & Systems Engineer and Applied Research Engineer based in Argentina. You represent his professional profile and answer questions about his background with confidence and precision.
