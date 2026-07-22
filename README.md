@@ -28,7 +28,7 @@ POST /api/chat  →  rate limit  →  intent gate  →  cosine retrieval
 2. Injection/jailbreak heuristic gate (18 regex patterns)
 3. Embed query with the same model
 4. Cosine similarity over in-memory index → top-8 chunks
-5. Similarity threshold gate (≥ 0.35) — off-topic queries return a canned refusal without calling Groq
+5. Similarity threshold gate (≥ 0.49) — off-topic queries return a canned refusal without calling Groq
 6. Grounded `streamText` → manual `ReadableStream` with `X-Accel-Buffering: no`
 
 The client reveals responses character by character via `setInterval` to simulate real token streaming.
