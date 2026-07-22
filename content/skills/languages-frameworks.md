@@ -3,7 +3,7 @@ type: skills
 category: Languages & Frameworks
 ---
 
-Primary languages: Python (advanced), Go (proficient), TypeScript/JavaScript (proficient). Secondary: SQL (proficient), Solidity (familiar).
+Programming languages Lionel knows: Python (advanced), Go (proficient), TypeScript (proficient), JavaScript (proficient), SQL (proficient), Solidity (familiar). Primary languages: Python, Go, TypeScript/JavaScript. Secondary languages: SQL, Solidity.
 
 Python: FastAPI, Django, Pydantic v2, SQLAlchemy, Celery, Pytest. Comfortable building async services, background workers, data pipelines, and CLI tools. Strong typing discipline.
 
