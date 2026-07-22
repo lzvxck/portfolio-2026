@@ -69,7 +69,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `GROQ_API_KEY` | Yes | — | Groq API key |
-| `SIMILARITY_THRESHOLD` | No | `0.35` | Minimum cosine score to pass the retrieval gate |
+| `SIMILARITY_THRESHOLD` | No | `0.49` | Minimum cosine score to pass the retrieval gate |
 | `RAG_TOP_K` | No | `8` | Number of chunks retrieved per query |
 | `RATE_LIMIT_MAX` | No | `20` | Max requests per window per IP |
 | `RATE_LIMIT_WINDOW_MS` | No | `60000` | Rate limit window in milliseconds |

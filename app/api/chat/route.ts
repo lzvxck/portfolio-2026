@@ -74,7 +74,7 @@ export async function POST(req: Request) {
   if (!intent.ok) return refusalStream();
 
   // ── 4. Retrieve relevant chunks ────────────────────────────────────────────
-  const threshold = parseFloat(process.env.SIMILARITY_THRESHOLD ?? "0.35");
+  const threshold = parseFloat(process.env.SIMILARITY_THRESHOLD ?? "0.49");
   const topK = parseInt(process.env.RAG_TOP_K ?? "8");
 
   let chunks;

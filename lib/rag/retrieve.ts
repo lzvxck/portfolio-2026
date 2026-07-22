@@ -65,7 +65,7 @@ function dot(a: number[], b: number[]): number {
 export async function retrieve(
   query: string,
   topK = 5,
-  threshold = 0.35
+  threshold = 0.49
 ): Promise<ScoredChunk[]> {
   const idx = getIndex();
   const embed = await getExtractor();

@@ -3,7 +3,7 @@ import { retrieve } from "../../lib/rag/retrieve";
 
 // Same env-driven fallback as app/api/chat/route.ts:77-78, so this test stays
 // in sync with Bug 1's threshold fix and the production defaults.
-const threshold = parseFloat(process.env.SIMILARITY_THRESHOLD ?? "0.35");
+const threshold = parseFloat(process.env.SIMILARITY_THRESHOLD ?? "0.49");
 const topK = parseInt(process.env.RAG_TOP_K ?? "8");
 
 async function main() {
