@@ -3,7 +3,7 @@ import { createGroq } from "@ai-sdk/groq";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { retrieve } from "@/lib/rag/retrieve";
-import { buildSystemPrompt, REFUSAL } from "@/lib/rag/prompt";
+import { buildSystemPrompt, sourceLabel, REFUSAL } from "@/lib/rag/prompt";
 import { checkRateLimit } from "@/lib/ratelimit";
 import { checkIntent } from "@/lib/guardrails/intent";
 
@@ -88,6 +88,15 @@ export async function POST(req: Request) {
   // ── 5. Similarity threshold gate — off-topic → canned refusal ─────────────
   if (chunks.length === 0) return refusalStream();
 
+  // Source labels for the "sources" chips — capped and deduped, sent as a
+  // response header since they're known before generation even starts.
+  const sources = Array.from(
+    new Set(chunks.map((c) => sourceLabel(c.metadata)))
+  ).slice(0, 4);
+  const sourcesHeader = Buffer.from(JSON.stringify(sources)).toString(
+    "base64"
+  );
+
   // ── 6. Grounded generation — manual ReadableStream for real-time flushing ──
   const system = buildSystemPrompt(chunks);
   let textStream: AsyncIterable<string>;
@@ -119,6 +128,6 @@ export async function POST(req: Request) {
         }
       },
     }),
-    { headers: STREAM_HEADERS }
+    { headers: { ...STREAM_HEADERS, "X-Source-Chunks": sourcesHeader } }
   );
 }

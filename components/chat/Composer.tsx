@@ -59,8 +59,9 @@ export default function Composer({
   return (
     <div
       className={cn(
-        "flex flex-col rounded-2xl border bg-card transition-colors duration-150",
-        "border-border focus-within:border-white/20"
+        "flex flex-col rounded-2xl border bg-card shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]",
+        "transition-[border-color,box-shadow] duration-200",
+        "border-border focus-within:border-white/25 focus-within:shadow-[0_8px_30px_-8px_rgba(255,255,255,0.06)]"
       )}
     >
       <div className="flex items-center gap-3 px-4 py-3.5">

@@ -4,6 +4,27 @@ import { formatYM } from "../content";
 export const REFUSAL =
   "I can only answer questions about Lionel Arce's professional background — experience, projects, skills, education, and certifications. Could you ask me something about that?";
 
+// Short, human-friendly label for a chunk — used for the "sources" chips
+// shown under a grounded answer, not for the model prompt itself.
+export function sourceLabel(metadata: Record<string, unknown>): string {
+  switch (metadata.type) {
+    case "profile":
+      return "Profile";
+    case "experience":
+      return String(metadata.company);
+    case "project":
+      return String(metadata.name);
+    case "skills":
+      return String(metadata.category);
+    case "education":
+      return String(metadata.institution);
+    case "certification":
+      return String(metadata.name);
+    default:
+      return String(metadata.type ?? "Unknown");
+  }
+}
+
 export function buildSystemPrompt(chunks: ScoredChunk[]): string {
   const context = chunks
     .map((c) => {

@@ -7,6 +7,7 @@ export type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  sources?: string[];
 };
 
 type UseChatOptions = { api?: string };
@@ -19,9 +20,13 @@ type UseChatReturn = {
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e?: FormEvent) => void;
   setInputValue: (val: string) => void;
+  resetConversation: () => void;
 };
 
-const MS_PER_CHAR = 10;
+// Reveal a few characters per tick instead of one-per-tick — same perceived
+// speed, but a third as many re-renders (and markdown re-parses) per second.
+const CHARS_PER_TICK = 3;
+const MS_PER_TICK = 30;
 
 export function useChat({ api = "/api/chat" }: UseChatOptions = {}): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -54,16 +59,16 @@ export function useChat({ api = "/api/chat" }: UseChatOptions = {}): UseChatRetu
         return;
       }
 
-      const char = pendingRef.current[0];
-      pendingRef.current = pendingRef.current.slice(1);
+      const chunk = pendingRef.current.slice(0, CHARS_PER_TICK);
+      pendingRef.current = pendingRef.current.slice(CHARS_PER_TICK);
 
       const id = assistantIdRef.current;
       if (id) {
         setMessages((prev) =>
-          prev.map((m) => (m.id === id ? { ...m, content: m.content + char } : m))
+          prev.map((m) => (m.id === id ? { ...m, content: m.content + chunk } : m))
         );
       }
-    }, MS_PER_CHAR);
+    }, MS_PER_TICK);
   }
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -125,6 +130,14 @@ export function useChat({ api = "/api/chat" }: UseChatOptions = {}): UseChatRetu
           return;
         }
 
+        let sources: string[] = [];
+        const sourcesHeader = res.headers.get("X-Source-Chunks");
+        if (sourcesHeader) {
+          try {
+            sources = JSON.parse(atob(sourcesHeader));
+          } catch {}
+        }
+
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let firstChunk = true;
@@ -139,7 +152,7 @@ export function useChat({ api = "/api/chat" }: UseChatOptions = {}): UseChatRetu
             setIsThinking(false);
             setMessages((prev) => [
               ...prev,
-              { id: assistantId, role: "assistant", content: "" },
+              { id: assistantId, role: "assistant", content: "", sources },
             ]);
           }
 
@@ -164,5 +177,28 @@ export function useChat({ api = "/api/chat" }: UseChatOptions = {}): UseChatRetu
     [api, input, isLoading, messages]
   );
 
-  return { messages, input, isLoading, isThinking, handleInputChange, handleSubmit, setInputValue };
+  const resetConversation = useCallback(() => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    pendingRef.current = "";
+    fetchDoneRef.current = false;
+    assistantIdRef.current = null;
+    setMessages([]);
+    setInput("");
+    setIsLoading(false);
+    setIsThinking(false);
+  }, []);
+
+  return {
+    messages,
+    input,
+    isLoading,
+    isThinking,
+    handleInputChange,
+    handleSubmit,
+    setInputValue,
+    resetConversation,
+  };
 }

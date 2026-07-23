@@ -103,3 +103,13 @@
     @apply font-sans;
   }
 }
+
+/* Restrained radial glow behind the empty-state hero — avoids a flat void
+   without introducing color or breaking the monochrome palette. */
+.hero-glow {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 40%,
+    oklch(1 0 0 / 6%),
+    transparent 70%
+  );
+}

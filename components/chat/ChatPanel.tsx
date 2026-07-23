@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { useChat } from "@/lib/hooks/use-chat";
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
+import { RotateCcw } from "lucide-react";
 import MessageList from "./MessageList";
 import Composer from "./Composer";
 
@@ -22,6 +23,7 @@ export default function ChatPanel() {
     isLoading,
     isThinking,
     setInputValue,
+    resetConversation,
   } = useChat({ api: "/api/chat" });
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -48,13 +50,32 @@ export default function ChatPanel() {
 
   return (
     <MotionConfig reducedMotion={shouldReduceMotion ? "always" : "never"}>
-      <div className="h-full flex flex-col overflow-hidden">
-        <AnimatePresence>
+      <div className="relative h-full flex flex-col overflow-hidden">
+        {hasMessages && (
+          <button
+            onClick={resetConversation}
+            aria-label="Reset conversation"
+            className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full border border-border bg-background/80 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm transition-colors duration-150 hover:border-white/25 hover:text-foreground"
+          >
+            <RotateCcw className="size-3" />
+            New chat
+          </button>
+        )}
+
+        {/* Hero and the message list are mutually exclusive under a single
+            mode="wait" AnimatePresence — the exiting child fully unmounts
+            before the entering one mounts, so they never coexist as two
+            flex-1 siblings splitting the available height. (That's what was
+            causing messages to render squeezed into half the viewport, then
+            visibly jump to full height once the hero finished unmounting.)
+            The composer is a separate, single persistent instance further
+            below, positioned via its own `layout` transition, so it never
+            double-mounts either. */}
+        <AnimatePresence mode="wait">
           {!hasMessages ? (
-            /* ── Empty state: hero + composer centered ── */
             <motion.div
-              key="empty"
-              className="flex-1 flex flex-col items-center justify-center gap-6 px-4"
+              key="hero"
+              className="hero-glow flex flex-1 flex-col items-center justify-center gap-6 px-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
@@ -76,7 +97,6 @@ export default function ChatPanel() {
                 </p>
               </motion.div>
 
-              {/* Suggested prompts */}
               <motion.div
                 className="flex flex-wrap justify-center gap-2"
                 initial={{ opacity: 0, y: 6 }}
@@ -93,54 +113,48 @@ export default function ChatPanel() {
                   </button>
                 ))}
               </motion.div>
-
-              <motion.div
-                layoutId="composer"
-                className="w-full max-w-2xl"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
-              >
-                <Composer
-                  value={input}
-                  onChange={handleInputChange}
-                  onSubmit={handleSubmit}
-                  isLoading={isLoading}
-                  textareaRef={textareaRef}
-                />
-              </motion.div>
             </motion.div>
           ) : (
-            /* ── Chat state: messages + composer at bottom ── */
             <motion.div
-              key="chat"
-              className="flex-1 flex flex-col overflow-hidden"
+              key="messages"
+              ref={scrollContainerRef}
+              className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              animate={{ opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
             >
-              <div
-                ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
-              >
-                <MessageList messages={messages} isThinking={isThinking} />
-                <div ref={bottomRef} />
-              </div>
-
-              <motion.div layoutId="composer" className="shrink-0 px-4 pb-6">
-                <div className="mx-auto max-w-2xl">
-                  <Composer
-                    value={input}
-                    onChange={handleInputChange}
-                    onSubmit={handleSubmit}
-                    isLoading={isLoading}
-                    textareaRef={textareaRef}
-                  />
-                </div>
-              </motion.div>
+              <MessageList messages={messages} isThinking={isThinking} />
+              <div ref={bottomRef} />
             </motion.div>
           )}
         </AnimatePresence>
+
+        <motion.div
+          layout
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.3,
+            ease: "easeOut",
+            delay: 0.1,
+            layout: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+          }}
+          className={
+            hasMessages
+              ? "shrink-0 px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+              : "w-full px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+          }
+        >
+          <div className="mx-auto max-w-2xl">
+            <Composer
+              value={input}
+              onChange={handleInputChange}
+              onSubmit={handleSubmit}
+              isLoading={isLoading}
+              textareaRef={textareaRef}
+            />
+          </div>
+        </motion.div>
       </div>
     </MotionConfig>
   );

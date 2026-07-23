@@ -1,13 +1,40 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { motion } from "framer-motion";
 import type { Message } from "@/lib/hooks/use-chat";
+
+function SourceChips({ sources }: { sources: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5 mt-1">
+      {sources.map((s) => (
+        <span
+          key={s}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[10px] text-muted-foreground"
+        >
+          <span className="size-1 rounded-full bg-muted-foreground/60" />
+          {s}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 function ThinkingDots() {
   return (
     <div className="flex items-center gap-1 h-5">
-      <span className="size-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:0ms]" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:160ms]" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:320ms]" />
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="size-1.5 rounded-full bg-muted-foreground/60"
+          animate={{ opacity: [0.25, 1, 0.25] }}
+          transition={{
+            duration: 1.1,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.15,
+          }}
+        />
+      ))}
     </div>
   );
 }
@@ -93,6 +120,9 @@ export default function MessageList({
               Lionel Arce
             </span>
             <AssistantMessage content={msg.content} />
+            {msg.sources && msg.sources.length > 0 && (
+              <SourceChips sources={msg.sources} />
+            )}
           </div>
         ) : null
       )}
