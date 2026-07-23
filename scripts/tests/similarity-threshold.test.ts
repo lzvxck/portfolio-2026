@@ -50,6 +50,16 @@ const ON_TOPIC: [string, string][] = [
     "What AWS machine learning certification does Lionel have?",
     "certifications/aws-ml-foundations",
   ],
+  ["Tell me about the attention router project", "projects/attention-router"],
+  ["What is trust gate?", "projects/trust-gate"],
+  [
+    "Have you fine-tuned any embedding models?",
+    "projects/dense-retrieval-ft",
+  ],
+  [
+    "Have you contributed to any open source projects?",
+    "skills/open-source",
+  ],
 ];
 
 async function main() {

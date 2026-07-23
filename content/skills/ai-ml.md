@@ -17,4 +17,6 @@ Security: prompt injection detection and defense — input sanitization, hierarc
 
 Model internals: trained GPT-architecture models from scratch (tiny-gpt-sota), implemented GQA and FlashAttention-2, built KV cache compression with custom Triton kernels (turboquant-implementation). This depth informs how he reasons about inference cost and architecture trade-offs.
 
+Training and fine-tuning: pre-training language models from scratch (tiny-gpt-sota, nanograd) and post-training with supervised fine-tuning (SFT), preference optimization (DPO), and reinforcement learning methods including GRPO for reasoning and alignment. Fine-tuned embedding models with LoRA for domain-specific dense retrieval (dense-retrieval-ft, bge-m3) also text generation open source models like Qwen 3.5. Comfortable designing evaluation benchmarks and structured comparisons — baseline vs. fine-tuned, nDCG/Recall/MRR for retrieval, pass/fail regression suites — rather than relying on informal spot-checks.
+
 Frameworks and libraries: PyTorch, Hugging Face Transformers, LangChain, LangGraph, LiteLLM, fastembed, flashrank, Triton.
