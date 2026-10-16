@@ -1,34 +1,39 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import type { Metadata, Viewport } from "next";
+import { DM_Sans, Newsreader } from "next/font/google";
+import { MotionProvider } from "@/components/site/MotionProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-dm-sans",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const newsreader = Newsreader({
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
 });
 
 export const metadata: Metadata = {
-  title: "Lionel Arce — AI & Systems Engineer",
-  description:
-    "Portfolio of Lionel Arce, AI & Systems Engineer. Ask me anything about my work, experience, or projects.",
+  title: "Lionel Arce — Software & research engineer",
+  description: "Lionel Arce — Software & research engineer in Buenos Aires.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#faf6ee",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full`}
-    >
-      <body className="h-full overflow-hidden bg-background text-foreground antialiased">
-        <TooltipProvider>{children}</TooltipProvider>
+    <html lang="en" className={`${dmSans.variable} ${newsreader.variable}`}>
+      <body>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );
