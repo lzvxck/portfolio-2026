@@ -70,6 +70,13 @@ export const papers: Collection = {
       summary: "When disagreement between providers stops working as an alarm.",
       href: "https://www.alphaxiv.org/abs/2610.plurality-paradox-multi-provider-oversight",
     },
+    {
+      title: "The Plausibility Trap",
+      year: "2026",
+      summary:
+        "Past a reviewer's frontier, plausibility can make acceptance favor false claims. A pre-registered test did not find that reversal.",
+      href: "https://www.alphaxiv.org/abs/2610.plausibility-trap-anti-informative-review",
+    },
   ],
 };
 
